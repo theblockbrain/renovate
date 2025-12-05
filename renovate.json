@@ -1,0 +1,75 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": [
+    "github>renovatebot/.github",
+    "mergeConfidence:all-badges",
+    "helpers:pinGitHubActionDigests"
+  ],
+  "prCreation": "immediate",
+  "packageRules": [
+    {
+      "description": "Trigger breaking release for major updates",
+      "matchPackageNames": [
+        "docker",
+        "renovate/renovate"
+      ],
+      "matchUpdateTypes": [
+        "major"
+      ],
+      "semanticCommitType": "feat",
+      "commitBody": "BREAKING CHANGE: Major update",
+      "automergeType": "pr"
+    },
+    {
+      "description": "Trigger feature release for minor updates",
+      "matchPackageNames": [
+        "*"
+      ],
+      "matchUpdateTypes": [
+        "minor",
+        "patch",
+        "digest"
+      ],
+      "groupName": "all non-major dependencies",
+      "groupSlug": "non-major",
+      "automergeType": "pr",
+      "automerge": false,
+      "ignoreTests": false
+    },
+    {
+      "description": "Allow updates after 3 days (exclude renovate)",
+      "separateMinorPatch": true,
+      "minimumReleaseAge": "3 days",
+      "matchPackageNames": [
+        "!renovate/renovate"
+      ]
+    },
+    {
+      "description": "Schedule digest updates daily",
+      "matchUpdateTypes": [
+        "digest"
+      ],
+      "extends": [
+        "schedule:daily"
+      ]
+    },
+    {
+      "description": "Full image is sometimes behind, so we need to force a new MR",
+      "matchPackageNames": [
+        "renovate/renovate"
+      ],
+      "matchUpdateTypes": [
+        "major",
+        "minor",
+        "patch"
+      ],
+      "recreateWhen": "always"
+    }
+  ],
+  "github-actions": {
+    "managerFilePatterns": [
+      "/\\.github/workflows/.+\\.ya?ml$"
+    ],
+    "pinDigests": true
+  }
+}

@@ -1,0 +1,43 @@
+name: Renovate
+
+on:
+  workflow_dispatch:
+  push:
+
+jobs:
+  renovate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+      - uses: renovatebot/github-action@v43.0.20
+        with:
+          docker-user: root
+        env:
+          RENOVATE_TOKEN: ${{ secrets.RENOVATE_TOKEN }}
+          # Logging
+          LOG_LEVEL: debug
+          RENOVATE_LOG_FILE: renovate-log.ndjson
+          RENOVATE_LOG_FILE_LEVEL: debug
+          # author signing
+          GIT_AUTHOR_NAME: Renovate Bot
+          GIT_AUTHOR_EMAIL: bot@renovateapp.com
+          GIT_COMMITTER_NAME: Renovate Bot
+          GIT_COMMITTER_EMAIL: bot@renovateapp.com
+          RENOVATE_GIT_AUTHOR: Renovate Bot <bot@renovateapp.com>
+          # renovate base
+          RENOVATE_BASE_DIR: ${{ github.workspace }}/renovate
+          RENOVATE_PLATFORM: github
+          RENOVATE_ONBOARDING_CONFIG: '{"$$schema": "https://docs.renovatebot.com/renovate-schema.json", "extends": ["config:base"] }'
+          # autodiscover settings
+          RENOVATE_AUTODISCOVER: "true"
+          RENOVATE_AUTODISCOVER_FILTER: '["theblockbrain/renovate"]'
+          # extensions
+          RENOVATE_EXTENDS: github>whitesource/merge-confidence:beta
+          RENOVATE_IGNORE_PR_AUTHOR: "true"
+          RENOVATE_OPTIMIZE_FOR_DISABLED: "true"
+          RENOVATE_REPOSITORY_CACHE: "enabled"
+          RENOVATE_HOST_RULES: '[{"matchHost": "{{ var.ECR_REGISTRY }}","username": "${{ github.actor }}","password": "${{ secrets.RENOVATE_TOKEN }}"},{"hostType": "git-tags","matchHost": "$GITHUB_SERVER_URL","username": "${{ github.actor }}","password": "${{ secrets.RENOVATE_TOKEN }}"}]'
+          RENOVATE_DETECT_HOST_RULES_FROM_ENV: "true"
+          # DRY RUN
+          # RENOVATE_DRY_RUN: full
