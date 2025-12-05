@@ -1,0 +1,23 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": [
+    "github>renovatebot/.github",
+    "mergeConfidence:all-badges"
+  ],
+  "prCreation": "immediate",
+  "packageRules": [
+    {
+      "description": "Auto-update GitHub Actions",
+      "matchManagers": [
+        "github-actions"
+      ],
+      "groupName": "all GitHub Actions",
+      "groupSlug": "github-actions"
+    }
+  ],
+  "github-actions": {
+    "managerFilePatterns": [
+      "/\\.github/workflows/.+\\.ya?ml$"
+    ]
+  }
+}
