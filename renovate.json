@@ -3,8 +3,10 @@
   "extends": [
     "github>renovatebot/.github",
     "mergeConfidence:all-badges",
-    "helpers:pinGitHubActionDigests"
+    "helpers:pinGitHubActionDigests",
+    ":disableDependencyDashboard"
   ],
+  "platformAutomerge": true,
   "prCreation": "immediate",
   "packageRules": [
     {
