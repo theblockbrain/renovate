@@ -2,7 +2,6 @@ name: Renovate
 
 on:
   workflow_dispatch:
-  push:
 
 jobs:
   renovate:
@@ -31,7 +30,7 @@ jobs:
           RENOVATE_ONBOARDING_CONFIG: '{"$$schema": "https://docs.renovatebot.com/renovate-schema.json", "extends": ["config:base"] }'
           # autodiscover settings
           RENOVATE_AUTODISCOVER: "true"
-          RENOVATE_AUTODISCOVER_FILTER: '["theblockbrain/renovate"]'
+          RENOVATE_AUTODISCOVER_FILTER: '["theblockbrain/tst_renovate_blockbrain-workloads"]'
           # extensions
           RENOVATE_EXTENDS: github>whitesource/merge-confidence:beta
           RENOVATE_IGNORE_PR_AUTHOR: "true"
@@ -41,3 +40,5 @@ jobs:
           RENOVATE_DETECT_HOST_RULES_FROM_ENV: "true"
           # DRY RUN
           # RENOVATE_DRY_RUN: full
+          # Scan also forked repo
+          RENOVATE_FORK_PROCESSING: enabled
